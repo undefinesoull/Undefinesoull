@@ -1,0 +1,540 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#050505">
+<title>UNDEFINESOULL | Dark Romance Creators</title>
+
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: #050505;
+  color: white;
+  font-family: Georgia, serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+.room {
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7%;
+  padding: 30px;
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse at 20% 70%, #21160f, transparent 45%),
+    linear-gradient(120deg, #050505, #15110f);
+  isolation: isolate;
+}
+
+/* WALL LIGHT */
+
+.wall-light {
+  position: absolute;
+  z-index: -1;
+  width: 550px;
+  height: 500px;
+  left: -100px;
+  bottom: 0;
+  background: #ffb13b;
+  filter: blur(100px);
+  opacity: 0;
+  transition: 1.5s;
+  pointer-events: none;
+}
+
+.room.on .wall-light {
+  opacity: .27;
+}
+
+/* LAMP */
+
+.lamp-area {
+  width: 300px;
+  height: 440px;
+  position: relative;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-direction: column;
+  z-index: 2;
+}
+
+.lamp-glow {
+  position: absolute;
+  top: 25px;
+  left: -30px;
+  width: 360px;
+  height: 370px;
+  background: #ffb83f;
+  filter: blur(90px);
+  opacity: 0;
+  transition: opacity 1.5s;
+  pointer-events: none;
+}
+
+.room.on .lamp-glow {
+  opacity: .48;
+}
+
+/* LAMPSHADE */
+
+.shade {
+  position: relative;
+  z-index: 3;
+  width: 210px;
+  height: 130px;
+  background: linear-gradient(
+    90deg,
+    #65401f,
+    #e9b76b,
+    #b17c40
+  );
+  clip-path: polygon(22% 0, 78% 0, 100% 100%, 0 100%);
+  box-shadow: 0 10px 30px #000;
+  transition: filter 1s;
+}
+
+.room.on .shade {
+  filter: brightness(1.7);
+}
+
+.shade::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 7px;
+  background: #ffce82;
+  box-shadow: 0 0 30px #ffc05a;
+}
+
+/* BULB */
+
+.bulb {
+  position: absolute;
+  z-index: 2;
+  top: 95px;
+  left: 117px;
+  width: 65px;
+  height: 65px;
+  border-radius: 50%;
+  background: #fff0bd;
+  filter: blur(15px);
+  opacity: 0;
+  transition: 1s;
+}
+
+.room.on .bulb {
+  opacity: 1;
+}
+
+/* LAMP STAND */
+
+.stem {
+  width: 12px;
+  height: 160px;
+  background: linear-gradient(
+    90deg,
+    #49301b,
+    #e0b77d,
+    #60401f
+  );
+}
+
+.base {
+  width: 135px;
+  height: 28px;
+  border-radius: 50%;
+  background: linear-gradient(#c49a62, #50351d);
+  box-shadow: 0 8px 20px #000;
+}
+
+/* ATTACHED PULL CORD */
+
+.cord {
+  position: absolute;
+  z-index: 10;
+  top: 235px;
+  left: calc(50% - 17.5px);
+  width: 35px;
+  height: 125px;
+  background: transparent;
+  border: none;
+  cursor: grab;
+  touch-action: none;
+}
+
+.cord::before {
+  content: "";
+  position: absolute;
+  top: -5px;
+  left: 13px;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #d7b078;
+  border: 1px solid #674622;
+}
+
+.cord-line {
+  position: absolute;
+  top: 2px;
+  left: 16px;
+  height: 95px;
+  width: 2px;
+  background: linear-gradient(#e0c18d, #a27b4d);
+  transform-origin: top;
+}
+
+.cord-knob {
+  position: absolute;
+  left: 8px;
+  bottom: 0;
+  width: 18px;
+  height: 28px;
+  border-radius: 8px;
+  background: linear-gradient(
+    90deg,
+    #62401e,
+    #e7c28b,
+    #75502c
+  );
+  box-shadow: 0 0 8px #000;
+}
+
+/* INSTRUCTION */
+
+.hint {
+  position: absolute;
+  bottom: -50px;
+  width: 100%;
+  text-align: center;
+  font-family: Arial, sans-serif;
+  font-size: 11px;
+  letter-spacing: 3px;
+  color: #aaa;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  50% { opacity: .35; }
+}
+
+/* BRAND CONTENT */
+
+.content {
+  max-width: 520px;
+  width: 100%;
+  text-align: center;
+  opacity: 0;
+  transform: translateY(35px);
+  transition: 1.5s ease;
+  pointer-events: none;
+  z-index: 3;
+}
+
+.room.on .content {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.content h1 {
+  font-family: Arial, sans-serif;
+  font-size: clamp(32px, 5vw, 60px);
+  font-weight: 900;
+  letter-spacing: 4px;
+  background: linear-gradient(
+    90deg,
+    #ffffff,
+    #b68aff,
+    #e7b6ff,
+    #ffffff
+  );
+  background-size: 200%;
+  color: transparent;
+  background-clip: text;
+  -webkit-background-clip: text;
+  animation: shine 4s linear infinite;
+}
+
+@keyframes shine {
+  to { background-position: 200%; }
+}
+
+.line {
+  width: 100px;
+  height: 2px;
+  margin: 23px auto;
+  background: #bd8aff;
+  box-shadow: 0 0 15px #a45cff;
+}
+
+.subtitle {
+  font-family: Arial, sans-serif;
+  color: #d5b5ff;
+  font-size: 14px;
+  letter-spacing: 6px;
+}
+
+.quote {
+  font-size: 21px;
+  line-height: 1.7;
+  font-style: italic;
+  color: #d1c0b4;
+  margin: 30px 0;
+}
+
+.creator {
+  font-family: Arial, sans-serif;
+  font-size: 12px;
+  letter-spacing: 5px;
+  color: #aaa;
+  margin-bottom: 30px;
+}
+
+/* INSTAGRAM PROFILE LINK */
+
+.insta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  text-decoration: none;
+  color: white;
+  font-family: Arial, sans-serif;
+  letter-spacing: 2px;
+  padding: 15px 25px;
+  border: 1px solid #b68aff;
+  border-radius: 40px;
+  box-shadow: 0 0 20px #8e45ff33;
+  transition: .4s;
+}
+
+.insta:hover {
+  background: #8b45d9;
+  box-shadow: 0 0 35px #a34cff;
+  transform: scale(1.07);
+}
+
+.insta svg {
+  width: 24px;
+  height: 24px;
+  fill: white;
+}
+
+.footer {
+  margin-top: 40px;
+  font-family: Arial, sans-serif;
+  font-size: 10px;
+  letter-spacing: 4px;
+  color: #777;
+}
+
+/* RESET */
+
+.reset {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 20;
+  border: 1px solid #ffffff44;
+  background: #ffffff12;
+  color: white;
+  border-radius: 30px;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+/* MOBILE */
+
+@media(max-width: 700px) {
+  .room {
+    flex-direction: column;
+    gap: 75px;
+    padding: 35px 15px 70px;
+    overflow-y: auto;
+  }
+
+  .lamp-area {
+    transform: scale(.82);
+    margin-top: -10px;
+    margin-bottom: -25px;
+  }
+
+  .content {
+    padding: 0 5px 30px;
+  }
+
+  .content h1 {
+    font-size: 35px;
+    letter-spacing: 2px;
+  }
+
+  .subtitle {
+    font-size: 11px;
+    letter-spacing: 4px;
+  }
+
+  .quote {
+    font-size: 18px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="room" id="room">
+
+  <div class="wall-light"></div>
+
+  <!-- TABLE LAMP -->
+
+  <div class="lamp-area">
+
+    <div class="lamp-glow"></div>
+    <div class="bulb"></div>
+
+    <div class="shade"></div>
+
+    <!-- PULL CORD ATTACHED TO LAMP -->
+
+    <button class="cord" id="cord"
+      aria-label="Pull lamp cord">
+
+      <span class="cord-line" id="cordLine"></span>
+      <span class="cord-knob"></span>
+
+    </button>
+
+    <div class="stem"></div>
+    <div class="base"></div>
+
+    <div class="hint" id="hint">
+      ↓ PULL THE CORD ↓
+    </div>
+
+  </div>
+
+  <!-- BRAND CONTENT -->
+
+  <div class="content">
+
+    <h1>UNDEFINESOULL</h1>
+
+    <div class="line"></div>
+
+    <p class="subtitle">DARK ROMANCE</p>
+
+    <p class="quote">
+      "Love in the shadows,<br>
+      stories in the silence."
+    </p>
+
+    <p class="creator">CONTENT CREATORS</p>
+
+    <a class="insta"
+       href="https://www.instagram.com/undefinesoull/"
+       target="_blank"
+       rel="noopener noreferrer">
+
+      <svg viewBox="0 0 24 24">
+        <path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm0 2a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3H7zm5 3a5 5 0 1 1 0 10 5 5 0 0 1 0-10zm0 2a3 3 0 1 0 0 6 3 3 0 0 0 0-6zm5-4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3z"/>
+      </svg>
+
+      @undefinesoull
+
+    </a>
+
+    <div class="footer">
+      CREATE • LOVE • REPEAT
+    </div>
+
+  </div>
+
+</div>
+
+<button class="reset" onclick="resetLamp()">
+  RESET
+</button>
+
+<script>
+
+const room = document.getElementById("room");
+const cord = document.getElementById("cord");
+const line = document.getElementById("cordLine");
+const hint = document.getElementById("hint");
+
+let dragging = false;
+let startY = 0;
+let switched = false;
+
+cord.addEventListener("pointerdown", function(e) {
+  dragging = true;
+  startY = e.clientY;
+  cord.setPointerCapture(e.pointerId);
+});
+
+cord.addEventListener("pointermove", function(e) {
+  if (!dragging) return;
+
+  let distance = Math.max(
+    0,
+    Math.min(65, e.clientY - startY)
+  );
+
+  line.style.transform =
+    `scaleY(${1 + distance / 95})`;
+});
+
+cord.addEventListener("pointerup", function(e) {
+  if (!dragging) return;
+
+  let distance = e.clientY - startY;
+  dragging = false;
+  line.style.transform = "scaleY(1)";
+
+  if (distance > 20) {
+    toggleLamp();
+  }
+});
+
+cord.addEventListener("pointercancel", function() {
+  dragging = false;
+  line.style.transform = "scaleY(1)";
+});
+
+function toggleLamp() {
+  switched = !switched;
+  room.classList.toggle("on", switched);
+
+  hint.textContent = switched
+    ? "↓ PULL TO TURN OFF ↓"
+    : "↓ PULL THE CORD ↓";
+}
+
+function resetLamp() {
+  switched = false;
+  room.classList.remove("on");
+  hint.textContent = "↓ PULL THE CORD ↓";
+}
+
+</script>
+
+</body>
+</html>
