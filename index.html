@@ -4,395 +4,496 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#050505">
-<title>UNDEFINESOULL | Dark Romance Creators</title>
+<meta name="theme-color" content="#050306">
+
+<title>UNDEFINESOULL | Dark Romance</title>
 
 <style>
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Inter:wght@300;400;600;800;900&display=swap');
+
+*{
+ margin:0;
+ padding:0;
+ box-sizing:border-box;
 }
 
-body {
-  background: #050505;
-  color: white;
-  font-family: Georgia, serif;
-  min-height: 100vh;
-  overflow-x: hidden;
+body{
+ background:#050306;
+ color:white;
+ font-family:Inter,sans-serif;
+ overflow-x:hidden;
 }
 
-.room {
-  min-height: 100vh;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 7%;
-  padding: 30px;
-  position: relative;
-  overflow: hidden;
-  background:
-    radial-gradient(ellipse at 20% 70%, #21160f, transparent 45%),
-    linear-gradient(120deg, #050505, #15110f);
-  isolation: isolate;
+.room{
+ min-height:100vh;
+ width:100%;
+ position:relative;
+ display:flex;
+ justify-content:center;
+ align-items:center;
+ gap:5%;
+ padding:40px;
+ overflow:hidden;
+ isolation:isolate;
+ background:
+ radial-gradient(ellipse at 18% 75%,#342015 0%,transparent 42%),
+ radial-gradient(ellipse at 85% 30%,#1b0b29 0%,transparent 50%),
+ linear-gradient(135deg,#030204,#100b12);
 }
 
-/* WALL LIGHT */
+/* WALL TEXTURE */
 
-.wall-light {
-  position: absolute;
-  z-index: -1;
-  width: 550px;
-  height: 500px;
-  left: -100px;
-  bottom: 0;
-  background: #ffb13b;
-  filter: blur(100px);
-  opacity: 0;
-  transition: 1.5s;
-  pointer-events: none;
+.room:before{
+ content:"";
+ position:absolute;
+ inset:0;
+ z-index:-1;
+ opacity:.12;
+ background-image:
+ repeating-linear-gradient(
+  0deg,transparent 0px,transparent 3px,
+  #ffffff 4px
+ );
+ pointer-events:none;
 }
 
-.room.on .wall-light {
-  opacity: .27;
+/* LIGHT BEAM */
+
+.light-beam{
+ position:absolute;
+ z-index:-1;
+ left:-12%;
+ bottom:0;
+ width:65%;
+ height:100%;
+ background:linear-gradient(
+  25deg,transparent,#ffb84d12,#ffc66d20,transparent
+ );
+ clip-path:polygon(20% 0,75% 0,100% 100%,0 100%);
+ opacity:0;
+ filter:blur(15px);
+ transition:2s;
+ pointer-events:none;
 }
 
-/* LAMP */
-
-.lamp-area {
-  width: 300px;
-  height: 440px;
-  position: relative;
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  flex-direction: column;
-  z-index: 2;
+.room.on .light-beam{
+ opacity:1;
 }
 
-.lamp-glow {
-  position: absolute;
-  top: 25px;
-  left: -30px;
-  width: 360px;
-  height: 370px;
-  background: #ffb83f;
-  filter: blur(90px);
-  opacity: 0;
-  transition: opacity 1.5s;
-  pointer-events: none;
+.floor-glow{
+ position:absolute;
+ width:650px;
+ height:250px;
+ left:-150px;
+ bottom:-150px;
+ background:#ffad451c;
+ filter:blur(80px);
+ opacity:0;
+ transition:2s;
+ pointer-events:none;
 }
 
-.room.on .lamp-glow {
-  opacity: .48;
+.room.on .floor-glow{
+ opacity:1;
 }
 
-/* LAMPSHADE */
+/* TABLE LAMP */
 
-.shade {
-  position: relative;
-  z-index: 3;
-  width: 210px;
-  height: 130px;
-  background: linear-gradient(
-    90deg,
-    #65401f,
-    #e9b76b,
-    #b17c40
-  );
-  clip-path: polygon(22% 0, 78% 0, 100% 100%, 0 100%);
-  box-shadow: 0 10px 30px #000;
-  transition: filter 1s;
+.lamp-area{
+ width:330px;
+ height:480px;
+ flex-shrink:0;
+ position:relative;
+ display:flex;
+ flex-direction:column;
+ justify-content:flex-end;
+ align-items:center;
+ z-index:3;
 }
 
-.room.on .shade {
-  filter: brightness(1.7);
+.lamp-halo{
+ position:absolute;
+ top:10px;
+ width:400px;
+ height:420px;
+ background:#ffb13d;
+ filter:blur(100px);
+ opacity:0;
+ transition:1.5s;
+ pointer-events:none;
 }
 
-.shade::after {
-  content: "";
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 7px;
-  background: #ffce82;
-  box-shadow: 0 0 30px #ffc05a;
+.room.on .lamp-halo{
+ opacity:.42;
+}
+
+/* LAMP SHADE */
+
+.shade{
+ position:relative;
+ z-index:4;
+ width:225px;
+ height:145px;
+ background:linear-gradient(
+  90deg,#382315,#9e6c3b,#e6b675,#a16b38,#342012
+ );
+ clip-path:polygon(21% 0,79% 0,100% 100%,0 100%);
+ filter:drop-shadow(0 12px 20px #000);
+ transition:filter 1s;
+}
+
+.shade:after{
+ content:"";
+ position:absolute;
+ bottom:0;
+ left:0;
+ width:100%;
+ height:8px;
+ background:#d9a15d;
+ box-shadow:0 0 25px #ffc56d;
+}
+
+.room.on .shade{
+ filter:brightness(1.8) drop-shadow(0 0 30px #ffbc58);
 }
 
 /* BULB */
 
-.bulb {
-  position: absolute;
-  z-index: 2;
-  top: 95px;
-  left: 117px;
-  width: 65px;
-  height: 65px;
-  border-radius: 50%;
-  background: #fff0bd;
-  filter: blur(15px);
-  opacity: 0;
-  transition: 1s;
+.bulb{
+ position:absolute;
+ z-index:3;
+ top:105px;
+ width:75px;
+ height:75px;
+ border-radius:50%;
+ background:#fff2ca;
+ filter:blur(20px);
+ opacity:0;
+ transition:1s;
 }
 
-.room.on .bulb {
-  opacity: 1;
+.room.on .bulb{
+ opacity:1;
+ animation:bulbPulse 2s infinite alternate;
+}
+
+@keyframes bulbPulse{
+ from{filter:blur(15px);opacity:.7}
+ to{filter:blur(24px);opacity:1}
 }
 
 /* LAMP STAND */
 
-.stem {
-  width: 12px;
-  height: 160px;
-  background: linear-gradient(
-    90deg,
-    #49301b,
-    #e0b77d,
-    #60401f
-  );
+.stem{
+ width:15px;
+ height:175px;
+ background:linear-gradient(90deg,#3d2917,#d9b17c,#674324);
+ border-radius:5px;
+ box-shadow:0 0 10px #000;
 }
 
-.base {
-  width: 135px;
-  height: 28px;
-  border-radius: 50%;
-  background: linear-gradient(#c49a62, #50351d);
-  box-shadow: 0 8px 20px #000;
+.base{
+ width:145px;
+ height:35px;
+ border-radius:50%;
+ background:linear-gradient(#d4a46a,#79502b,#382114);
+ box-shadow:0 12px 25px #000;
 }
 
 /* ATTACHED PULL CORD */
 
-.cord {
-  position: absolute;
-  z-index: 10;
-  top: 235px;
-  left: calc(50% - 17.5px);
-  width: 35px;
-  height: 125px;
-  background: transparent;
-  border: none;
-  cursor: grab;
-  touch-action: none;
+.cord{
+ position:absolute;
+ z-index:10;
+ top:245px;
+ left:calc(50% - 18px);
+ width:36px;
+ height:135px;
+ background:transparent;
+ border:0;
+ cursor:grab;
+ touch-action:none;
 }
 
-.cord::before {
-  content: "";
-  position: absolute;
-  top: -5px;
-  left: 13px;
-  width: 9px;
-  height: 9px;
-  border-radius: 50%;
-  background: #d7b078;
-  border: 1px solid #674622;
+.cord:before{
+ content:"";
+ position:absolute;
+ top:-6px;
+ left:14px;
+ width:9px;
+ height:10px;
+ border-radius:50%;
+ background:#e3c18a;
+ border:1px solid #654523;
 }
 
-.cord-line {
-  position: absolute;
-  top: 2px;
-  left: 16px;
-  height: 95px;
-  width: 2px;
-  background: linear-gradient(#e0c18d, #a27b4d);
-  transform-origin: top;
+.cord-line{
+ position:absolute;
+ top:2px;
+ left:17px;
+ width:2px;
+ height:105px;
+ background:linear-gradient(#e9c993,#9d7549);
+ transform-origin:top;
 }
 
-.cord-knob {
-  position: absolute;
-  left: 8px;
-  bottom: 0;
-  width: 18px;
-  height: 28px;
-  border-radius: 8px;
-  background: linear-gradient(
-    90deg,
-    #62401e,
-    #e7c28b,
-    #75502c
-  );
-  box-shadow: 0 0 8px #000;
+.cord-knob{
+ position:absolute;
+ bottom:0;
+ left:8px;
+ width:20px;
+ height:28px;
+ border-radius:8px;
+ background:linear-gradient(90deg,#55351c,#eac48a,#6d4726);
+ box-shadow:0 0 12px #000;
 }
 
-/* INSTRUCTION */
+/* HINT */
 
-.hint {
-  position: absolute;
-  bottom: -50px;
-  width: 100%;
-  text-align: center;
-  font-family: Arial, sans-serif;
-  font-size: 11px;
-  letter-spacing: 3px;
-  color: #aaa;
-  animation: pulse 2s infinite;
+.hint{
+ position:absolute;
+ bottom:-55px;
+ white-space:nowrap;
+ font-size:10px;
+ letter-spacing:4px;
+ color:#c5a98c;
+ animation:hintGlow 2s infinite;
 }
 
-@keyframes pulse {
-  50% { opacity: .35; }
+@keyframes hintGlow{
+ 50%{opacity:.35;text-shadow:0 0 15px #fff}
 }
 
-/* BRAND CONTENT */
+/* CONTENT PANEL */
 
-.content {
-  max-width: 520px;
-  width: 100%;
-  text-align: center;
-  opacity: 0;
-  transform: translateY(35px);
-  transition: 1.5s ease;
-  pointer-events: none;
-  z-index: 3;
+.content{
+ width:100%;
+ max-width:570px;
+ text-align:center;
+ padding:45px 25px;
+ position:relative;
+ z-index:4;
+ background:linear-gradient(135deg,#ffffff08,#ffffff02);
+ border:1px solid #ffffff12;
+ border-radius:25px;
+ backdrop-filter:blur(12px);
+ box-shadow:0 20px 80px #0008;
+ opacity:0;
+ visibility:hidden;
+ transform:translateY(40px) scale(.96);
+ transition:1.5s ease;
+ pointer-events:none;
 }
 
-.room.on .content {
-  opacity: 1;
-  transform: translateY(0);
-  pointer-events: auto;
+.room.on .content{
+ opacity:1;
+ visibility:visible;
+ transform:translateY(0) scale(1);
+ pointer-events:auto;
 }
 
-.content h1 {
-  font-family: Arial, sans-serif;
-  font-size: clamp(32px, 5vw, 60px);
-  font-weight: 900;
-  letter-spacing: 4px;
-  background: linear-gradient(
-    90deg,
-    #ffffff,
-    #b68aff,
-    #e7b6ff,
-    #ffffff
-  );
-  background-size: 200%;
-  color: transparent;
-  background-clip: text;
-  -webkit-background-clip: text;
-  animation: shine 4s linear infinite;
+/* CROWN */
+
+.crown{
+ color:#d6a4ff;
+ font-size:27px;
+ margin-bottom:14px;
+ text-shadow:0 0 25px #a855f7;
 }
 
-@keyframes shine {
-  to { background-position: 200%; }
+/* SMALL BRAND NAME */
+
+.brand{
+ font-family:Cinzel,serif;
+ font-size:clamp(22px,3.5vw,38px);
+ font-weight:700;
+ letter-spacing:2px;
+ line-height:1.3;
+ background:linear-gradient(
+  90deg,#fff,#c084fc,#f0abfc,#fff
+ );
+ background-size:300%;
+ color:transparent;
+ background-clip:text;
+ -webkit-background-clip:text;
+ animation:brandShine 5s linear infinite;
+ filter:drop-shadow(0 0 18px #a855f755);
 }
 
-.line {
-  width: 100px;
-  height: 2px;
-  margin: 23px auto;
-  background: #bd8aff;
-  box-shadow: 0 0 15px #a45cff;
+@keyframes brandShine{
+ to{background-position:300%}
 }
 
-.subtitle {
-  font-family: Arial, sans-serif;
-  color: #d5b5ff;
-  font-size: 14px;
-  letter-spacing: 6px;
+.divider{
+ width:100px;
+ height:2px;
+ margin:22px auto;
+ background:linear-gradient(90deg,transparent,#d8a4ff,transparent);
+ box-shadow:0 0 15px #bd75ff;
 }
 
-.quote {
-  font-size: 21px;
-  line-height: 1.7;
-  font-style: italic;
-  color: #d1c0b4;
-  margin: 30px 0;
+.category{
+ color:#d9b4ff;
+ font-size:13px;
+ letter-spacing:7px;
+ font-weight:600;
 }
 
-.creator {
-  font-family: Arial, sans-serif;
-  font-size: 12px;
-  letter-spacing: 5px;
-  color: #aaa;
-  margin-bottom: 30px;
+.quote{
+ margin:32px 0;
+ color:#d2c4d9;
+ font-family:Cinzel,serif;
+ font-size:19px;
+ line-height:1.8;
 }
 
-/* INSTAGRAM PROFILE LINK */
-
-.insta {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  text-decoration: none;
-  color: white;
-  font-family: Arial, sans-serif;
-  letter-spacing: 2px;
-  padding: 15px 25px;
-  border: 1px solid #b68aff;
-  border-radius: 40px;
-  box-shadow: 0 0 20px #8e45ff33;
-  transition: .4s;
+.creator{
+ color:#bbaac5;
+ font-size:11px;
+ letter-spacing:5px;
+ margin-bottom:30px;
 }
 
-.insta:hover {
-  background: #8b45d9;
-  box-shadow: 0 0 35px #a34cff;
-  transform: scale(1.07);
+/* INSTAGRAM FOLLOW BUTTON */
+
+.follow{
+ display:inline-flex;
+ align-items:center;
+ justify-content:center;
+ gap:12px;
+ padding:17px 30px;
+ border-radius:50px;
+ text-decoration:none;
+ color:white;
+ font-size:13px;
+ font-weight:800;
+ letter-spacing:1.5px;
+ background:linear-gradient(110deg,#833ab4,#fd1d1d,#fcb045);
+ background-size:200%;
+ box-shadow:0 0 20px #d6297655;
+ transition:.5s;
+ animation:instaGlow 4s infinite;
 }
 
-.insta svg {
-  width: 24px;
-  height: 24px;
-  fill: white;
+.follow:hover{
+ transform:translateY(-7px) scale(1.06);
+ background-position:100%;
+ box-shadow:0 0 40px #e1306c99;
 }
 
-.footer {
-  margin-top: 40px;
-  font-family: Arial, sans-serif;
-  font-size: 10px;
-  letter-spacing: 4px;
-  color: #777;
+.follow svg{
+ width:25px;
+ height:25px;
+ fill:white;
+}
+
+@keyframes instaGlow{
+ 50%{box-shadow:0 0 35px #d6297680}
+}
+
+.follow-label{
+ margin-top:18px;
+ color:#e8d8ee;
+ font-size:10px;
+ letter-spacing:4px;
+}
+
+.footer{
+ margin-top:40px;
+ color:#887a90;
+ font-size:10px;
+ letter-spacing:5px;
+}
+
+/* FLOATING PARTICLES */
+
+.particle{
+ position:absolute;
+ width:3px;
+ height:3px;
+ background:#e9c4ff;
+ border-radius:50%;
+ box-shadow:0 0 12px #d8a4ff;
+ pointer-events:none;
+ opacity:0;
+ animation:floatUp 8s linear infinite;
+}
+
+.room.on .particle{
+ opacity:.8;
+}
+
+@keyframes floatUp{
+ 0%{transform:translateY(100px);opacity:0}
+ 20%{opacity:.8}
+ 80%{opacity:.6}
+ 100%{transform:translateY(-650px);opacity:0}
 }
 
 /* RESET */
 
-.reset {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  z-index: 20;
-  border: 1px solid #ffffff44;
-  background: #ffffff12;
-  color: white;
-  border-radius: 30px;
-  padding: 10px 20px;
-  cursor: pointer;
+.reset{
+ position:fixed;
+ right:20px;
+ bottom:20px;
+ z-index:30;
+ background:#ffffff0d;
+ border:1px solid #ffffff35;
+ color:#fff;
+ padding:12px 22px;
+ border-radius:40px;
+ cursor:pointer;
+ backdrop-filter:blur(10px);
 }
 
 /* MOBILE */
 
-@media(max-width: 700px) {
-  .room {
-    flex-direction: column;
-    gap: 75px;
-    padding: 35px 15px 70px;
-    overflow-y: auto;
-  }
+@media(max-width:750px){
 
-  .lamp-area {
-    transform: scale(.82);
-    margin-top: -10px;
-    margin-bottom: -25px;
-  }
+ .room{
+  flex-direction:column;
+  gap:70px;
+  padding:30px 15px 90px;
+  min-height:100vh;
+ }
 
-  .content {
-    padding: 0 5px 30px;
-  }
+ .lamp-area{
+  transform:scale(.83);
+  margin-top:-15px;
+  margin-bottom:-30px;
+ }
 
-  .content h1 {
-    font-size: 35px;
-    letter-spacing: 2px;
-  }
+ .content{
+  max-width:100%;
+  padding:35px 15px;
+ }
 
-  .subtitle {
-    font-size: 11px;
-    letter-spacing: 4px;
-  }
+ .brand{
+  font-size:25px;
+  letter-spacing:1.5px;
+ }
 
-  .quote {
-    font-size: 18px;
-  }
+ .category{
+  font-size:11px;
+  letter-spacing:5px;
+ }
+
+ .quote{
+  font-size:17px;
+ }
+
+ .creator{
+  letter-spacing:3px;
+ }
+
+ .follow{
+  padding:15px 20px;
+  font-size:11px;
+ }
+
+ .light-beam{
+  width:100%;
+ }
 }
 </style>
 </head>
@@ -401,76 +502,85 @@ body {
 
 <div class="room" id="room">
 
-  <div class="wall-light"></div>
+ <div class="light-beam"></div>
+ <div class="floor-glow"></div>
 
-  <!-- TABLE LAMP -->
+ <!-- TABLE LAMP -->
 
-  <div class="lamp-area">
+ <div class="lamp-area">
 
-    <div class="lamp-glow"></div>
-    <div class="bulb"></div>
+  <div class="lamp-halo"></div>
+  <div class="bulb"></div>
 
-    <div class="shade"></div>
+  <div class="shade"></div>
 
-    <!-- PULL CORD ATTACHED TO LAMP -->
+  <!-- ATTACHED CORD -->
 
-    <button class="cord" id="cord"
-      aria-label="Pull lamp cord">
+  <button class="cord" id="cord"
+   aria-label="Pull to switch lamp">
 
-      <span class="cord-line" id="cordLine"></span>
-      <span class="cord-knob"></span>
+   <span class="cord-line" id="cordLine"></span>
+   <span class="cord-knob"></span>
 
-    </button>
+  </button>
 
-    <div class="stem"></div>
-    <div class="base"></div>
+  <div class="stem"></div>
+  <div class="base"></div>
 
-    <div class="hint" id="hint">
-      ↓ PULL THE CORD ↓
-    </div>
-
+  <div class="hint" id="hint">
+   ↓ PULL THE CORD TO BEGIN ↓
   </div>
 
-  <!-- BRAND CONTENT -->
+ </div>
 
-  <div class="content">
+ <!-- CREATOR BRANDING -->
 
-    <h1>UNDEFINESOULL</h1>
+ <div class="content">
 
-    <div class="line"></div>
+  <div class="crown">♛</div>
 
-    <p class="subtitle">DARK ROMANCE</p>
+  <h1 class="brand">UNDEFINESOULL</h1>
 
-    <p class="quote">
-      "Love in the shadows,<br>
-      stories in the silence."
-    </p>
+  <div class="divider"></div>
 
-    <p class="creator">CONTENT CREATORS</p>
+  <p class="category">DARK ROMANCE</p>
 
-    <a class="insta"
-       href="https://www.instagram.com/undefinesoull/"
-       target="_blank"
-       rel="noopener noreferrer">
+  <p class="quote">
+   "Love in the shadows,<br>
+   stories in the silence."
+  </p>
 
-      <svg viewBox="0 0 24 24">
-        <path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm0 2a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3H7zm5 3a5 5 0 1 1 0 10 5 5 0 0 1 0-10zm0 2a3 3 0 1 0 0 6 3 3 0 0 0 0-6zm5-4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3z"/>
-      </svg>
+  <p class="creator">
+   CONTENT CREATORS
+  </p>
 
-      @undefinesoull
+  <!-- INSTAGRAM PROFILE LINK -->
 
-    </a>
+  <a class="follow"
+   href="https://www.instagram.com/undefinesoull/"
+   target="_blank"
+   rel="noopener noreferrer">
 
-    <div class="footer">
-      CREATE • LOVE • REPEAT
-    </div>
+   <svg viewBox="0 0 24 24">
+    <path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm0 2a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3H7zm5 3a5 5 0 1 1 0 10 5 5 0 0 1 0-10zm0 2a3 3 0 1 0 0 6 3 3 0 0 0 0-6zm5-4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3z"/>
+   </svg>
 
+   FOLLOW US ON INSTAGRAM
+
+  </a>
+
+  <p class="follow-label">@UNDEFINESOULL</p>
+
+  <div class="footer">
+   CREATE • LOVE • REPEAT
   </div>
+
+ </div>
 
 </div>
 
 <button class="reset" onclick="resetLamp()">
-  RESET
+ RESET
 </button>
 
 <script>
@@ -484,54 +594,83 @@ let dragging = false;
 let startY = 0;
 let switched = false;
 
-cord.addEventListener("pointerdown", function(e) {
-  dragging = true;
-  startY = e.clientY;
-  cord.setPointerCapture(e.pointerId);
+/* PULL CORD */
+
+cord.addEventListener("pointerdown",e=>{
+ dragging=true;
+ startY=e.clientY;
+ cord.setPointerCapture(e.pointerId);
 });
 
-cord.addEventListener("pointermove", function(e) {
-  if (!dragging) return;
+cord.addEventListener("pointermove",e=>{
+ if(!dragging)return;
 
-  let distance = Math.max(
-    0,
-    Math.min(65, e.clientY - startY)
-  );
+ let distance=Math.max(
+  0,Math.min(65,e.clientY-startY)
+ );
 
-  line.style.transform =
-    `scaleY(${1 + distance / 95})`;
+ line.style.transform=`scaleY(${1+distance/95})`;
 });
 
-cord.addEventListener("pointerup", function(e) {
-  if (!dragging) return;
+cord.addEventListener("pointerup",e=>{
+ if(!dragging)return;
 
-  let distance = e.clientY - startY;
-  dragging = false;
-  line.style.transform = "scaleY(1)";
+ let distance=e.clientY-startY;
 
-  if (distance > 20) {
-    toggleLamp();
-  }
+ dragging=false;
+ line.style.transform="scaleY(1)";
+
+ if(distance>20){
+  toggleLamp();
+ }
 });
 
-cord.addEventListener("pointercancel", function() {
-  dragging = false;
-  line.style.transform = "scaleY(1)";
+cord.addEventListener("pointercancel",()=>{
+ dragging=false;
+ line.style.transform="scaleY(1)";
 });
 
-function toggleLamp() {
-  switched = !switched;
-  room.classList.toggle("on", switched);
+/* LAMP SWITCH */
 
-  hint.textContent = switched
-    ? "↓ PULL TO TURN OFF ↓"
-    : "↓ PULL THE CORD ↓";
+function toggleLamp(){
+
+ switched=!switched;
+
+ room.classList.toggle("on",switched);
+
+ hint.textContent=switched
+ ? "↓ PULL TO TURN OFF ↓"
+ : "↓ PULL THE CORD TO BEGIN ↓";
+
 }
 
-function resetLamp() {
-  switched = false;
-  room.classList.remove("on");
-  hint.textContent = "↓ PULL THE CORD ↓";
+/* RESET */
+
+function resetLamp(){
+
+ switched=false;
+ room.classList.remove("on");
+
+ hint.textContent="↓ PULL THE CORD TO BEGIN ↓";
+
+}
+
+/* FLOATING PARTICLES */
+
+for(let i=0;i<35;i++){
+
+ const p=document.createElement("div");
+
+ p.className="particle";
+
+ p.style.left=Math.random()*100+"%";
+ p.style.top=(30+Math.random()*70)+"%";
+
+ p.style.animationDelay=Math.random()*8+"s";
+ p.style.animationDuration=(5+Math.random()*8)+"s";
+
+ room.appendChild(p);
+
 }
 
 </script>
